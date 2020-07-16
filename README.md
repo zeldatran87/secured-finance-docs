@@ -33,3 +33,7 @@ List of formats and examples is shown below. We can also create innovative struc
 - Fleek and IPFS to develop web application
 - VueJS or other front-end framework for UI
 - DID with ION or Elements for Identity and Key management
+
+## Contributors
+
+Senshi M. Onions [Twitter: @onion797jp](https://twitter.com/onion797jp)
