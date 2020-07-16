@@ -14,7 +14,7 @@ List of formats and examples is shown below. We can also create innovative struc
 
 ## Target User
 
-- Miners who want to borrow/lend their FIL without worring about credit risk
+- Miners who want to borrow/lend their FIL without worrying about credit risk
 - Investors who have long-term view and aim for excess return from markets
 - Hedgers who want to reduce their current exposure of their crypto-assets
 - Arbitragers who want to profit by providing liquidity to collateralized assets
