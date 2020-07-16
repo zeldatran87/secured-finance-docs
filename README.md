@@ -5,12 +5,12 @@ A protocol for financial transactions backed by crypto-assets.
 ## Financial Transactions
 
 You can do the following traditional financial transactions with various formats.
-List of formats and examples is shown below. We can also create innovative structured products by combining these plain-vanila transactions.
+List of formats and examples is shown below. We can also create innovative structured products by combining these plain-vanilla transactions.
 
 - Loan (FIL loan backed by ETH) <---- HackFS primary focus
 - Deposit (FIL deposit to earn interest)
 - Swap (FIL/ETH cross-currency swap)
-- Option (FIL/ETH european call option)
+- Option (FIL/ETH European call option)
 
 ## Target User
 
