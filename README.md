@@ -1,6 +1,8 @@
-# Secured Finance
+<h1 align="center">
+  <img width="500" src="img/logo.jpg" alt="Secured Finance logo" />
+</h1>
 
-A protocol for financial transactions backed by crypto-assets.
+<h3 align="center">A protocol for financial transactions backed by crypto-assets.</h3>
 
 ## Financial Transactions
 
@@ -23,8 +25,8 @@ List of formats and examples is shown below. We can also create innovative struc
 
 - Payment management smart contract
 - Collateral management smart contract
-- Liquidity management to support margin call operations
 - Ecosystem design of primary & secondary market on financial transactions
+- Liquidity management to support margin call operations
 
 ## Technologies and Tools
 
