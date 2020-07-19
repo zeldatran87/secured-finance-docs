@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width="500" src="img/logo.jpg" alt="Secured Finance logo" />
+  <img width="600" src="img/logo.jpg" alt="Secured Finance logo" />
 </h1>
 
 <h3 align="center">A protocol for financial transactions backed by crypto-assets.</h3>
@@ -7,7 +7,7 @@
 ## Financial Transactions
 
 You can do the following traditional financial transactions with various formats.
-List of formats and examples is shown below. We can also create innovative structured products by combining these plain-vanilla transactions.
+A list of formats and examples is shown below. We can also create innovative structured products by combining these plain-vanilla transactions.
 
 - Loan (FIL loan backed by ETH) <---- HackFS primary focus
 - Deposit (FIL deposit to earn interest)
