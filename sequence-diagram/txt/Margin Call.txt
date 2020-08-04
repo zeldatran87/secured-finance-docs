@@ -3,35 +3,33 @@ title Margin Call
 participant "Market (contract)" as Market
 participant "Collateral (contract)" as Collateral
 participant "Scheduler (server)" as Scheduler
-participant "Filecoin (network)" as Filecoin
 participant "Loan (contract)" as Loan
 participant "Market Taker (browser)" as Taker
 
 note over Market,Taker:Margin Call Operations
 
-Scheduler-->Loan: Collect Loan details
-Market<--Scheduler:View yield curve
-Scheduler->Scheduler:Calc PV of loans
-Scheduler-->Collateral: Read collateral info\nand calc coverage \n(< 150%)
-Collateral<-Scheduler: Update the collateral\n state 'MARGIN CALL'
+Scheduler->Loan: Call calc all PV method
+Market<--Loan:View yield curve
+Loan->Loan:Calc PV of loans
+Loan-->Collateral: Read collateral info\nand calc coverage \n(< 150%)
+Collateral<-Loan: Update the collateral\n state 'MARGIN CALL'
 Collateral-->Taker: Emit message\n'MARGIN CALL'
 
 note over Market,Taker:Safe case
 
-Taker->Collateral: Send ETH to\nFill up colalteral
-Collateral-->Scheduler: Emit message\n'Margin upsize'
-Market<--Scheduler:View yield curve
-Scheduler->Scheduler:Calc PV of loans
-Scheduler-->Collateral: Read collateral info\nand calc coverage \n(>150%)
-Collateral<-Scheduler:Update the collateral\nstate 'IN USE'
+Taker->Collateral: Send ETH to\nupsize colalteral
+Market<--Loan:View yield curve
+Loan->Loan:Calc PV of loans
+Loan-->Collateral: Read collateral info\nand calc coverage \n(>150%)
+Collateral<-Loan:Update the collateral\nstate 'IN USE'
 Collateral-->Taker: Emit message\n'margin SAFE'
 
 note over Market,Taker:Liquidation case
 
 Taker-->Taker: No ETH
-Scheduler-->Scheduler: Wait for action
-Market<--Scheduler:View yield curve
-Scheduler->Scheduler:Calc PV of loans
-Scheduler-->Collateral: Read collateral info\nand calc coverage \n(<125%)
-Collateral<-Scheduler:Update the collateral\nstate 'LIQUIDATION'
+Loan-->Loan: Wait for action
+Market<--Loan:View yield curve
+Loan->Loan:Calc PV of loans
+Loan-->Collateral: Read collateral info\nand calc coverage \n(<125%)
+Collateral<-Loan:Update the collateral\nstate 'LIQUIDATION'
 Collateral-->Taker: Emit message\n'Collateral Liquidation'

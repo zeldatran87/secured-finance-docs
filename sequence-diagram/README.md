@@ -12,7 +12,7 @@ This directory has diagrams to explain how each players, components, smart contr
   - A smart contract that stores all the loans to manage schedules for coupon payments and calculate PV (present value), and control its state (REGISTERED, BEGIN, CLOSED, TERMINATED).
 - Scheduler
   - It stayes on user's browser (or our back-up server in case nobody is using the web app) and uses web3js pub-sub to catch a new block head and uses as a clock-tick to kick batch operations such as market updates, re-evaluate PV of all financial products for margin call.
-- Filecoin
+- Filecoin Network
   - The Filecoin network to send/receive and verify balance.
 - Market Taker
   - Users who see the market and take a deal. In a loan deal, they can be borrowers or lenders. To take a lending deal to borrow money, they have to collateralize ETH (or FIL) to the Collateral smart contract.
