@@ -1,0 +1,49 @@
+title Redemption
+
+participant "Lender (browser)" as Lender
+participant "Market Maker(browser)" as Maker
+participant "Collateral (contract)" as Collateral
+participant "Filecoin (network)" as Filecoin
+participant "Loan (contract)" as Loan
+participant "Market Taker (browser)" as Taker
+
+note over Lender,Taker:Redemption
+note over Loan: WORKING
+Loan->Loan: Check payment schedule\n Loan state 'DUE'
+note over Loan: DUE
+Loan-->Taker:Emit message 'Payment Advice'
+
+note over Lender,Taker:Safe Case
+
+note over Collateral: IN USE
+Taker->Filecoin: Transfer Filecoin (FIL)
+Taker->Loan: Input Filecoin txHash
+Loan-->Lender:Emit message:\n'FIL Redemption Paid'
+Lender-->Filecoin: Verify the amount from txHash
+Lender->Loan:Confirm FIL payment\nLoan state 'CLOSED'
+note over Loan:CLOSED
+Loan->Collateral: Loan state 'AVAILABLE'
+note over Collateral: AVAILABLE
+Loan-->Taker:Emit message\n'Redemption paid and closed'
+
+note over Lender,Taker:Liquidation Case
+
+note over Loan: DUE 
+note over Collateral: IN USE
+Taker-->Taker: No Payment
+Loan->Collateral:Update the collateral\nstate 'LIQUIDATION'
+note over Collateral:LIQUIDATION
+Collateral-->Taker:Emit message 'Collateral Liquidation'
+Collateral-->Lender: Emit message 'Collateral Liquidation'
+Collateral-->Maker:Emit message 'Nominated\nas liquidation provider'
+Maker->Filecoin: Transfer Filecoin (FIL)
+Maker->Loan: Input Filecoin txHash
+Loan-->Lender:Emit message:\n'FIL loan redeemed'
+Lender-->Filecoin: Verify the amount from txHash
+Lender->Collateral:Confirm FIL paid\nCollateral state 'EMPTY'
+note over Collateral:EMPTY
+Collateral->Maker:Release collateral for\nFIL loan amt (in ETH120%)
+Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
+Collateral->Loan:Loan state 'TERMINATED'
+note over Loan:TERMINATED
+Loan-->Taker:Emit message\n'Loan Terminated'

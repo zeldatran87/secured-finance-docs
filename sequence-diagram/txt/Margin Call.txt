@@ -8,28 +8,35 @@ participant "Market Taker (browser)" as Taker
 
 note over Market,Taker:Margin Call Operations
 
-Scheduler->Loan: Call calc all PV method
+note over Loan: WORKING
+note over Collateral: IN USE
+Scheduler->Loan:Call update all PV method
 Market<--Loan:View yield curve
 Loan->Loan:Calc PV of loans
 Loan-->Collateral: Read collateral info\nand calc coverage \n(< 150%)
 Collateral<-Loan: Update the collateral\n state 'MARGIN CALL'
+note over Collateral: MARGINCALL
 Collateral-->Taker: Emit message\n'MARGIN CALL'
 
 note over Market,Taker:Safe case
 
 Taker->Collateral: Send ETH to\nupsize colalteral
+Collateral->Loan:Call update user PV method
 Market<--Loan:View yield curve
 Loan->Loan:Calc PV of loans
 Loan-->Collateral: Read collateral info\nand calc coverage \n(>150%)
 Collateral<-Loan:Update the collateral\nstate 'IN USE'
+note over Collateral: IN USE
 Collateral-->Taker: Emit message\n'margin SAFE'
 
 note over Market,Taker:Liquidation case
 
 Taker-->Taker: No ETH
 Loan-->Loan: Wait for action
+Scheduler->Loan:Call update all PV method
 Market<--Loan:View yield curve
 Loan->Loan:Calc PV of loans
 Loan-->Collateral: Read collateral info\nand calc coverage \n(<125%)
 Collateral<-Loan:Update the collateral\nstate 'LIQUIDATION'
+note over Collateral: LIQUIDATION
 Collateral-->Taker: Emit message\n'Collateral Liquidation'
