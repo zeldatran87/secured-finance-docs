@@ -1,0 +1,22 @@
+title Liquidation
+
+participant "Lender (browser)" as Lender
+participant "Market Maker(browser)" as Maker
+participant "Collateral (contract)" as Collateral
+participant "Filecoin (network)" as Filecoin
+participant "Loan (contract)" as Loan
+participant "Market Taker (browser)" as Taker
+
+note over Lender,Taker:Liquidation process
+
+Collateral-->Maker:Emit message 'Nominated\nas liquidation provider'
+Maker->Filecoin: Transfer Filecoin (FIL)
+Maker->Loan: Input Filecoin txHash
+Loan-->Lender:Emit message:\n'FIL RETURNED'
+Lender-->Filecoin: Verify the amount from txHash
+Lender->Collateral:Confirm FIL returned\nCollateral state 'EMPTY'
+Collateral->Maker: Release collateral (ETH120%)
+Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
+Collateral->Loan: Update the loan state\n'TERMINATED'
+Loan-->Taker: Emit message\n'Loan TERMINATED'
+Collateral->Collateral: Update the collateral state\n'EMPTY'

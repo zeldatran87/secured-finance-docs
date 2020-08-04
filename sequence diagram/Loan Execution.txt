@@ -1,0 +1,27 @@
+title Loan Execution
+
+participant "Market Maker (browser)" as Maker
+participant "Filecoin (network)" as Filecoin
+participant "Market (contract)" as Market
+participant "Collateral (contract)" as Collateral
+participant "Loan (contract)" as Loan
+participant "Market Taker(browser)" as Taker
+
+note over Maker,Taker:Loan Execution
+
+Market<--Taker: Read market data
+Loan<-Taker:New Loan Registration
+Collateral<-Loan:Check Collateral\nCollateral state: AVAILABLE
+Market<-Loan:Update booking board\nby removing this deal
+Loan->Loan:Loan state: REGISTERED
+Loan-->Taker:Emit message\n'Loan REGISTERED'\nor revert
+Maker<--Loan:Emit message\n'Loan REGISTERED'
+Maker-->Market:Read Market to check\nthe loan detail
+Maker->Filecoin: Transfer Filecoin (FIL)
+Maker->Loan: Input Filecoin txHash
+Loan-->Taker: Emit message\n'Fund ARRIVED'
+Taker-->Filecoin: Verify the amount from txHash
+Taker->Loan: Confirm the loan\nLoan state: BEGIN
+Loan-->Maker: Emit message\n'Loan BEGIN'
+Loan->Collateral: Collateral state: IN USE
+Collateral-->Taker: Emit message\n'Collateral IN USE'

@@ -1,0 +1,44 @@
+title Registration to Market Making
+
+participant "Market Maker (browser)" as Maker
+participant "Market (contract)" as Market
+participant "Collateral (contract)" as Collateral
+participant "Scheduler (server, browser)" as Scheduler
+participant "Filecoin (network)" as Filecoin
+
+note over Maker,Filecoin:Registration
+
+Maker->Collateral: Registar ETH and FIL account address
+Collateral<--Scheduler: Read FIL address
+Scheduler-->Filecoin: Read FIL balance
+Scheduler->Collateral: Update FIL balance
+Collateral-->Maker: Emit message\n'Registration Completed'
+
+note over Maker,Filecoin:Collateralizing:  (1) ETH case
+
+Maker->Collateral: Send ETH
+
+Collateral-->Maker: Emit message\n 'ETH Collateral Received'
+note over Maker,Filecoin:Collateralizing:  (2) FIL case
+
+Maker->Collateral: Request FIL custody address
+Collateral-->Scheduler: Emit message:\n'New custody address request'
+Filecoin->Scheduler: Create a new FIL address
+Scheduler->Collateral:Register a new FIL address\nCollateral state: EMPTY
+Collateral-->Maker: Emit message\n 'Here's your custody address'
+Maker->Filecoin: Send FIL
+Maker->Collateral: Input Filecoin txHash
+Collateral<--Scheduler: Read txHash
+Scheduler-->Filecoin: Read FIL balance
+Scheduler->Collateral:Update FIL balance\nCollateral state: AVAILABLE
+Collateral-->Maker: Emit message\n'FIL Collateral Received'
+
+note over Maker,Filecoin:Market Making (Loan, Deposit, FX)
+
+Maker-->Collateral: Pick random Filecoin collateral addresses
+Maker-->Filecoin: Read FIL balances for\nrandom chosen addresses
+Maker->Market:Input bid/ask price, size\nInput FIL balances for others
+Market->Collateral:Read collateral amount for Maker\nUpdate FIL balances for others
+Maker<--Market: Emit message\n'Confirmed' or 'Upsize Collateral'
+Market<--Maker: View updated curve,\nbooking board
+

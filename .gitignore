@@ -105,3 +105,7 @@ dist
 
 # Mac
 .DS_Store
+
+# Personal Settings
+*/old*
+

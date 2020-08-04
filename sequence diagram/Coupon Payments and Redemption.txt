@@ -1,0 +1,37 @@
+title Coupon Payments and Redemption
+
+participant "Lender (browser)" as Lender
+participant "Market Maker(browser)" as Maker
+participant "Collateral (contract)" as Collateral
+participant "Filecoin (network)" as Filecoin
+participant "Loan (contract)" as Loan
+participant "Market Taker (browser)" as Taker
+
+Loan-->Taker:Emit message 'Payment Advice'
+
+note over Lender,Taker:Safe Case
+
+Taker->Filecoin: Transfer Filecoin (FIL)
+Taker->Loan: Input Filecoin txHash
+Loan-->Lender:Emit message:\n'FIL Coupon Paid'
+Lender-->Filecoin: Verify the amount from txHash
+Lender->Loan:Confirm FIL payment\nLoan schedule state 'PAID'
+Loan-->Taker: Emit message\n'Coupon Paid'
+
+note over Lender,Taker:Liquidation Case
+
+Taker-->Taker: No Payment
+Loan->Collateral: Update the collateral\nstate 'PARTIAL LIQUIDATION'
+Collateral-->Taker: Emit message 'Collateral Partial Liquidation'
+Collateral-->Lender: Emit message 'Collateral Partial Liquidation'
+Collateral-->Maker:Emit message 'Nominated\nas partial liquidation provider'\nwith FIL coupon amount
+Maker->Filecoin: Transfer Filecoin (FIL)
+Maker->Loan: Input Filecoin txHash
+Loan-->Lender:Emit message:\n'FIL Coupon Paid'
+Lender-->Filecoin: Verify the amount from txHash
+Lender->Collateral:Confirm FIL paid\nCollateral state 'IN USE'
+Collateral->Maker: Release collateral for\nFIL coupon amt (in ETH120%)
+Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
+Collateral->Loan: Confirm FIL payment\nLoan schedule state 'PAID'
+Loan-->Taker: Emit message\n'Coupon Paid'
+Loan->Collateral: Update the collateral\nstate 'IN USE'
