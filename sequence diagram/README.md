@@ -17,17 +17,17 @@ This directory has diagrams to explain how each players, components, smart contr
 
 ## (1) Registration to Market Making
 
-![Registration to Market Making](./Registration%20to%20Market%20Making.svg)
+![Registration to Market Making](./svg/Registration%20to%20Market%20Making.svg)
 
 ## (2) Loan Execution
 
-![Loan Execution](./Loan%20Execution.svg)
+![Loan Execution](./svg/Loan%20Execution.svg)
 
 ## (3) Margin Call
-![Margin Call](./Margin%20Call.svg)
+![Margin Call](./svg/Margin%20Call.svg)
 
 ## (4) Liquidation
-![Liquidation](./Liquidation.svg)
+![Liquidation](./svg/Liquidation.svg)
 
 ## (5) Coupon Payments and Redemption
-![Coupon Payments and Redemption](./Coupon%20Payments%20and%20Redemption.svg)
+![Coupon Payments and Redemption](./svg/Coupon%20Payments%20and%20Redemption.svg)
