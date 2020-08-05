@@ -41,7 +41,8 @@ Loan-->Lender:Emit message:\n'FIL Coupon Paid'
 Lender-->Filecoin:Verify the amount from txHash
 Lender->Loan:Confirm FIL paid
 Loan->Collateral: Call to release collateral for\nFIL coupon amt (in ETH120%)
-Collateral->Maker: Release collateral (in ETH120%)\nLoan state 'IN USE'
+Collateral->Maker: Release collateral (in ETH120%)
+Collateral->Collateral:Collateral state 'IN USE'
 note over Collateral: IN USE
 Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
 Collateral->Loan:Loan state 'WORKING'

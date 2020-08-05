@@ -44,7 +44,8 @@ Loan-->Lender:Emit message:\n'FIL loan redeemed'
 Lender-->Filecoin: Verify the amount from txHash
 Lender->Loan:Confirm FIL paid
 Loan->Collateral: Call to release collateral for\nFIL loan amt (in ETH120%)
-Collateral->Maker: Release collateral (in ETH120%)\nLoan state 'EMPTY'
+Collateral->Maker: Release collateral (in ETH120%)
+Collateral->Collateral: Collateral state 'EMPTY'
 note over Collateral: EMPTY
 Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
 Collateral->Loan:Loan state 'TERMINATED'
