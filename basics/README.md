@@ -1,6 +1,6 @@
 # Basics of Secured Finance
 
-Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanism. We currently have loans and fx, and then we will add swaps and options as we progress.
+Secured Finance is an inter-bank-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol from accumulated knowledge from 40-years of the financial industry and made it open to the public. With this protocol, we built scalable, flexible, decentralized peer-to-peer markets for loans and fx, and then we will add swaps and options as we progress.
 
 This directory has diagrams to explain how each player, network, and smart contracts interact with each other. The interaction is designed using FSM (Finite State Machine); therefore, it heavily depends on the states of loans and contracts. This document aims to help understand how those states change along with the lifecycle of a loan transaction.
 
