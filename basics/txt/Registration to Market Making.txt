@@ -41,7 +41,7 @@ note over Maker,Filecoin:Market Making (Loan, Deposit, FX)
 Maker-->Collateral: Pick random Filecoin collateral addresses
 Maker-->Filecoin: Read FIL balances for\nrandom chosen addresses
 Maker->Market:Input bid/ask price, size\nInput FIL balances for others
-Market->Collateral:Read collateral amount if borrow FIL\nHelp to verify other's FIL account balances
+Market-->Collateral:Read collateral amount if borrow FIL\nHelp to verify other's FIL account balances
 Maker<--Market: Emit message\n'Confirmed' or 'Upsize Collateral'
 Market<--Maker: View updated curve,\nbooking board
 

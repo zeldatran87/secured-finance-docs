@@ -34,8 +34,9 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 ### 🤝 2. Loan Execution
 
    1. Market Takers(takers) pick the best loan rate for lending/borrowing. If takers want to borrow funds, their collateral amount must be greater than 150% of the borrowing amount.
-   2. When a maker receives an event message for their FIL lending proposal was taken, they should transfer FIL and input txHash to the Loan Contract.
+   2. When a maker receives an event message that their FIL lending proposal was taken, they should transfer FIL and input txHash to the Loan Contract.
    3. When a taker receives an event message for the arrival of borrowing FIL, they should verify the amount from the Filecoin network and confirm to start the loan.
+   4. The loan state changes from `REGISTERED` to `WORKING`, and the collateral state changes from `AVAILABLE` to `IN_USE`.
 
 ### 💫 3. Coupon Payments
 

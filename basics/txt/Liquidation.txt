@@ -16,10 +16,12 @@ Maker->Filecoin: Transfer Filecoin (FIL)
 Maker->Loan: Input Filecoin txHash
 Loan-->Lender:Emit message:\n'FIL RETURNED'
 Lender-->Filecoin: Verify the amount from txHash
-Lender->Collateral:Confirm FIL returned\nCollateral state 'EMPTY'
-note over Collateral: EMPTY
-Collateral->Maker: Release collateral (ETH120%)
+
+Lender->Loan:Confirm FIL paid
+Loan->Collateral: Call to release collateral for\nFIL coupon amt (in ETH120%)
+Collateral->Maker:Release collateral (in ETH120%)\nLoan state 'EMPTY'
+note over Collateral:EMPTY
 Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
-Collateral->Loan: Update the loan state\n'TERMINATED'
-note over Loan: TERMINATED
-Loan-->Taker: Emit message\n'Loan TERMINATED'
+Collateral->Loan:Loan state 'TERMINATED'
+note over Loan:TERMINATED
+Loan-->Taker:Emit message\n'TERMINATED'

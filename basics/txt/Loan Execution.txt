@@ -13,7 +13,7 @@ Market<--Taker: Read market data
 Loan<-Taker:New Loan Registration
 Collateral<-Loan:Check Collateral\nCollateral state: AVAILABLE
 note over Collateral: AVAILABLE
-Market<-Loan:Update booking board\nby removing this deal
+Market<-Loan:Update booking board\nadjust the deal size
 Loan->Loan:Loan state: REGISTERED
 note over Loan: REGISTERED
 Loan-->Taker:Emit message\n'Loan REGISTERED'\nor revert
