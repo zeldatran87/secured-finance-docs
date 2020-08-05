@@ -1,4 +1,4 @@
-# Basics of Secured Finance
+# 🌿 Basics of Secured Finance
 
 Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol from accumulated knowledge from [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of the financial industry that governs [558 trilions of dollars of OTC (i.e. peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we built scalable, flexible, decentralized peer-to-peer markets for loans and fx, and then we will add swaps and options as we progress.
 
