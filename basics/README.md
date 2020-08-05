@@ -27,7 +27,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 
 ### ✍️ 1. Registration, Collateralization, and Market Making
 
-   1. Market Makers(makers) register themselves with their ETH and FIL addresses to receive funds.
+   1. Market Makers(makers) register themselves with their ETH and FIL addresses to receive funds. They also register an ID such as DID to anchor a government-issued identity and public keys so that a counterparty can choose who they want to trade to comply with AML and other financial regulations.
    2. To quote as borrowers, makers should collateralize their ETH ore FIL to custody address. In the ETH case, it is the address of Collateral contract.
    3. Before input quotes to the Market smart contract, makers help verify other maker's FIL balance. They pick random FIL address from Collateral contracts and update the balance. It is a mechanism to keep all FIL account balances up to date. In this regard, we are developing a P2P oracle to make it more efficient.
 
