@@ -11,9 +11,9 @@ This directory has diagrams to explain how each player, network, and smart contr
 - Market.sol
   - A smart contract to gather all market information. It works like a database.
 - Collateral.sol
-  - A smart contract that collets ETH as collateral and manages the control of the funds' ownership based on its state (`EMPTY`, `AVAILABLE`, `IN_USE`, `MARGINCALL`, `PARTIAL_LIQUIDATION`, `LIQUIDATION`). For FIL as collateral, we keep txHash and let the user's counterparty confirm the FIL balance manually.
+  - A smart contract that collets ETH as collateral and manages the control of the funds' ownership based on its state (`EMPTY`, `AVAILABLE`, `IN_USE`, `MARGIN_CALL`, `PARTIAL_LIQUIDATION`, `LIQUIDATION`). For FIL as collateral, we keep txHash and let the user's counterparty confirm the FIL balance manually.
 - Loan.sol
-  - It is a smart contract that stores all the loans to manage schedules for coupon payments, calculate PV (present value), and control its state (`REGISTERED`, `WORKING`, `DUE`, `CLOSED`, `TERMINATED`).
+  - It is a smart contract that stores all the loans to manage schedules for coupon payments, calculate PV (present value), and control its state (`REGISTERED`, `WORKING`, `DUE`, `PAST_DUE`, `CLOSED`, `TERMINATED`).
 - Scheduler
   - It stays on the user's browser (or our back-up server in case nobody is using the web app) and uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick kicks batch operations such as market updates, re-evaluate PV of all financial products for a margin call.
 - Filecoin Network
@@ -41,7 +41,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 
    1. Periodically, the Loan contract checks the payment schedule and update the loan's state.
    2. Before the scheduled payments, the Loan contract emits messages for payment advice (default to 2 weeks prior). After the advice, the loan state changes to `DUE`, and the coupon payments should be made until the payment time.
-   3. If takers failed to pay coupons, the loan state changes to `PARTIAL LIQUIDATION` to cover up coupon payments from takers' collateral.
+   3. If takers failed to pay coupons, the loan state changes to `PAST_DUE` and the collateral state changes to `PARTIAL LIQUIDATION` to cover up coupon payments from takers' collateral.
    4. Suppose the collateral currency is different from loan currency. In that case, one of the best makers is nominated as the liquidity provider, and they will convert partial ETH collateral to FIL with a very attractive rate (default to 120%).
    5. In any case, coupon payment will be made, and the loan state will be back to `WORKING` and the collateral state to be `IN_USE`.
 

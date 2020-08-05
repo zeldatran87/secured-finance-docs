@@ -31,6 +31,7 @@ note over Lender,Taker:Liquidation Case
 note over Loan: DUE 
 note over Collateral: IN USE
 Taker-->Taker: No Payment
+note over Loan: PAST DUE
 Loan->Collateral:Update the collateral\nstate 'LIQUIDATION'
 note over Collateral:LIQUIDATION
 Collateral-->Taker:Emit message 'Collateral Liquidation'
