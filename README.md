@@ -33,7 +33,7 @@ A list of formats and examples is shown below. We can also create innovative str
 - Filecoin for main payment currency
 - Ethereum for collateral management smart contract written in Solidity
 - Fleek and IPFS to develop web application
-- VueJS or other front-end framework for UI
+- React for front-end framework for UI
 - DID with ION or Elements for Identity and Key management
 
 ## Contributors
