@@ -36,6 +36,15 @@ A list of formats and examples is shown below. We can also create innovative str
 - React for front-end framework for UI
 - DID with ION or Elements for Identity and Key management
 
+## Architecture
+
+Our webapp orchestrates these smartcontracts using state machines. ([Sequence Diagram](https://github.com/Secured-Finance/secured-finance-docs/tree/master/basics))
+
+- Market.sol
+- Collateral.sol
+- Loan.sol
+
+
 ## Contributors
 
 Senshi M. Onions [Twitter: @onion797jp](https://twitter.com/onion797jp)
