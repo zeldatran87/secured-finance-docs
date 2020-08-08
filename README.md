@@ -36,15 +36,32 @@ A list of formats and examples is shown below. We can also create innovative str
 - React for front-end framework for UI
 - DID with ION or Elements for Identity and Key management
 
-## Architecture
+## Presentatins
+- [HackFS YouTube Submission](https://youtu.be/cJ7RFAyNHbY)
+- [HackFS Presentation](https://github.com/Secured-Finance/secured-finance-docs/blob/master/basics/HackFS-Presentation.pdf)
 
-Our webapp orchestrates these smartcontracts using state machines. ([Sequence Diagram](https://github.com/Secured-Finance/secured-finance-docs/tree/master/basics))
+## Core Architecture
+
+Our webapp orchestrates state machines in Ethereum Smart Contracts.
+([Documentation](https://github.com/Secured-Finance/secured-finance-docs/tree/master/basics))
 
 - Market.sol
 - Collateral.sol
 - Loan.sol
 
+## Repositories
+
+- [Web Application](https://github.com/Secured-Finance/Secured-Finance-app)
+- [Smart Contracts](https://github.com/Secured-Finance/smart-contracts)
+- [P2P Oracle Network](https://github.com/Secured-Finance/p2p-oracle-node)
+- [P2P Oracle Contracts](https://github.com/Secured-Finance/p2p-oracle-smart-contracts)
 
 ## Contributors
 
 Senshi M. Onions [Twitter: @onion797jp](https://twitter.com/onion797jp)
+[Bakhtiiar Muzakparov](https://github.com/muzakparov)
+[Bach Adylbekov](https://github.com/bahadylbekov)
+
+## License
+
+This project is licensed under the MIT license, Copyright (c) 2020 Secured Finance. For more information see `LICENSE.md`.

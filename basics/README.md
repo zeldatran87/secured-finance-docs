@@ -8,11 +8,11 @@ This directory has diagrams to explain how each player, network, and smart contr
 
 - Market Maker
   - Users using the Secured Finance web app, and propose their borrow/lend interest rates, bid/offer FX rates) to market takers.
-- Market.sol
+- [Market.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Market.sol)
   - A smart contract to gather all market information. It works like a database.
-- Collateral.sol
+- [Collateral.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Collateral.sol)
   - A smart contract that collets ETH as collateral and manages the control of the funds' ownership based on its state (`EMPTY`, `AVAILABLE`, `IN_USE`, `MARGIN_CALL`, `PARTIAL_LIQUIDATION`, `LIQUIDATION`). For FIL as collateral, we keep txHash and let the user's counterparty confirm the FIL balance manually.
-- Loan.sol
+- [Loan.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Loan.sol)
   - It is a smart contract that stores all the loans to manage schedules for coupon payments, calculate PV (present value), and control its state (`REGISTERED`, `WORKING`, `DUE`, `PAST_DUE`, `CLOSED`, `TERMINATED`).
 - Scheduler
   - It stays on the user's browser (or our back-up server in case nobody is using the web app) and uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick kicks batch operations such as market updates, re-evaluate PV of all financial products for a margin call.
