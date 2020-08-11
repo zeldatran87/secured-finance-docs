@@ -4,6 +4,16 @@
 
 <h3 align="center">A protocol for financial transactions backed by crypto-assets.</h3>
 
+[![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
+
+## Introduction
+
+Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms.
+
+We designed a protocol from accumulated knowledge of [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of the financial industry that governs [558 trilions of dollars of OTC (i.e. peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public.
+
+With this protocol, we built scalable, flexible, decentralized peer-to-peer markets for loans and FX, and then we will add swaps and options as we progress.
+
 ## Financial Transactions
 
 You can do the following traditional financial transactions with various formats.

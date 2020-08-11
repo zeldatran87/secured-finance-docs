@@ -1,6 +1,8 @@
 # 🌿 Basics of Secured Finance
 
-Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol from accumulated knowledge from [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of the financial industry that governs [558 trilions of dollars of OTC (i.e. peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we built scalable, flexible, decentralized peer-to-peer markets for loans and FX, and then we will add swaps and options as we progress.
+[![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
+
+Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol from accumulated knowledge of [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of the financial industry that governs [558 trilions of dollars of OTC (i.e. peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we built scalable, flexible, decentralized peer-to-peer markets for loans and FX, and then we will add swaps and options as we progress.
 
 This directory has diagrams to explain how each player, network, and smart contracts interact with each other. The interaction is designed using FSM (Finite State Machine); therefore, it heavily depends on the states of loans and contracts. This document aims to help understand how those states change along with the lifecycle of a loan transaction.
 
