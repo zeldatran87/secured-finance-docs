@@ -45,6 +45,8 @@ A list of formats and examples is shown below. We can also create innovative str
 - Fleek and IPFS to develop web application
 - React for front-end framework for UI
 - DID with ION or Elements for Identity and Key management
+- Libp2p, PubSub, Raft consensus for p2p oracle node
+- Set of smart contracts for p2p oracle on Ethereum network
 
 ## Presentatins
 - [HackFS YouTube Submission](https://youtu.be/cJ7RFAyNHbY)
