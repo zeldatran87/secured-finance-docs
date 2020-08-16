@@ -48,7 +48,8 @@ A list of formats and examples is shown below. We can also create innovative str
 - Libp2p, PubSub, Raft consensus for p2p oracle node
 - Set of smart contracts for p2p oracle on Ethereum network
 
-## Presentatins
+## Presentations
+
 - [HackFS ETHGlobal Official Showcase](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
 - [HackFS YouTube Submission](https://youtu.be/cJ7RFAyNHbY)
 - [HackFS Presentation Slide](https://github.com/Secured-Finance/secured-finance-docs/blob/master/basics/HackFS-Presentation.pdf)
@@ -74,8 +75,10 @@ Our webapp orchestrates state machines in Ethereum Smart Contracts.
 
 ## Contributors
 
-Senshi M. Onions [Twitter: @onion797jp](https://twitter.com/onion797jp)
+[Senshi M. Onions](https://twitter.com/onion797jp)
+
 [Bakhtiiar Muzakparov](https://github.com/muzakparov)
+
 [Bach Adylbekov](https://github.com/bahadylbekov)
 
 ## License
