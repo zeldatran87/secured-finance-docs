@@ -49,8 +49,10 @@ A list of formats and examples is shown below. We can also create innovative str
 - Set of smart contracts for p2p oracle on Ethereum network
 
 ## Presentatins
+- [HackFS ETHGlobal Official Showcase](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
 - [HackFS YouTube Submission](https://youtu.be/cJ7RFAyNHbY)
-- [HackFS Presentation](https://github.com/Secured-Finance/secured-finance-docs/blob/master/basics/HackFS-Presentation.pdf)
+- [HackFS Presentation Slide](https://github.com/Secured-Finance/secured-finance-docs/blob/master/basics/HackFS-Presentation.pdf)
+- [Secured Finance Demo App](https://securedfinance.on.fleek.co/)
 
 ## Core Architecture
 
