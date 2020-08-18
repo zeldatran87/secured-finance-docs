@@ -81,6 +81,8 @@ Our webapp orchestrates state machines in Ethereum Smart Contracts.
 
 [Bach Adylbekov](https://github.com/bahadylbekov)
 
+[Denis Davydov](https://github.com/ChronosX88)
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2020 Secured Finance. For more information see `LICENSE.md`.
