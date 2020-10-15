@@ -81,7 +81,7 @@ Our webapp orchestrates state machines in Ethereum Smart Contracts.
 
 [Bach Adylbekov](https://github.com/bahadylbekov)
 
-[Denis Davydov](https://github.com/ChronosX88)
+[ChronosX88](https://github.com/ChronosX88)
 
 ## License
 
