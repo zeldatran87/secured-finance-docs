@@ -1,4 +1,4 @@
-# 🌿 Basics of Secured Finance
+# 🌿 Secured Finance Protocol
 
 [![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
 
