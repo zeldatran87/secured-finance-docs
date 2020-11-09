@@ -54,7 +54,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 
 ### 🆘 5. Margin Call
 
-   1. Periodically, the Loan contract updates PV (present value) of all loans and checks the collateral coverage. If a borrowed loan PV goes up and therefore the collateral coverage gets below 150%, the collateral state will change from `MARGINCALL`.
+   1. Periodically, the Loan contract updates PV (present value) of all loans and checks the collateral coverage. If a borrowed loan PV goes up and therefore the collateral coverage gets below 150%, the collateral state will change from `IN_USE` to `MARGINCALL`.
    2. If takers upsize collateral and the coverage gets over 150%, the state will be back to `IN_USE`.
    3. However, if takers don't respond, and the coverage gets below 125%, we consider this a credit event; therefore, the collateral state will be shifted further to `LIQUIDATION`. Then the automatic liquidation process will begin. It works as a credit support annex in traditional financial transactions. Market makers should acknowledge this automatic liquidation feature.
 
@@ -104,11 +104,11 @@ Collateral state: IN_USE
 
 ```txt
 Coupon due -> unpaid
-Loan state: DUE
+Loan state: DUE -> PAST_DUE
 Collateral state: IN_USE -> PARTIAL_LIQUIDATION
 
 Coupon unpaid -> paid
-Loan state: DUE -> WORKING
+Loan state: PAST_DUE -> WORKING
 Collateral state: PARTIAL_LIQUIDATION -> IN_USE
 ```
 
@@ -125,16 +125,16 @@ Collateral state: IN_USE
 ```txt
 Redemption due -> paid
 Loan state: DUE -> CLOSED
-Collateral state: AVAILABLE
+Collateral state: IN_USE -> AVAILABLE
 ```
 
 ```txt
 Redemption due -> unpaid
-Loan state: DUE
+Loan state: DUE -> PAST_DUE
 Collateral state: IN_USE -> LIQUIDATION
 
 Redemption unpaid -> paid
-Loan state: DUE -> TERMINATED
+Loan state: PAST_DUE -> TERMINATED
 Collateral state: LIQUIDATION -> EMPTY
 ```
 
