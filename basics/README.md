@@ -71,9 +71,8 @@ Each step with the state changes are displayed followed by its sequence diagram.
 ### (1) States for Registration, Collateralization, and Market Making ✍️
 
 ```txt
-Loan registration done
-Loan state: REGISTERD
-Collateral state: EMPTY or AVAILABLE
+User and collateral registration
+Collateral state: EMPTY -> AVAILABLE
 ```
 
 ![Registration to Market Making](./svg/Registration%20to%20Market%20Making.svg)
