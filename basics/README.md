@@ -1,6 +1,6 @@
 # 🌿 Secured Finance Protocol
 
-[![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
+[![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm) [![badge](https://img.shields.io/badge/submit%20for-ETHOnline-ffe4b4)](https://hack.ethglobal.co/showcase/secured-finance-recJiyE8KWrV5VyHi)
 
 Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol replicating [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of an industry-standard that manages [558 trillions of dollars of OTC (i.e., peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. We built a protocol for a scalable, interoperable, decentralized, peer-to-peer banking business for crypto assets.
 
