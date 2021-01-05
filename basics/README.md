@@ -21,7 +21,7 @@ This directory has diagrams to explain how each player, network, and smart contr
 - Filecoin Network
   - The Filecoin network to send/receive and verify the balance of FIL custody accounts.
 - Scheduler
-  - It uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick kicks batch operations such as market updates and re-evaluates all financial products' PV for a margin call.
+  - It uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick triggers operations such as market update, collateral & loan PV re-evaluation, and their state updates for a margin call and various notifications.
 
 ## The Lifecycle of Loans
 
