@@ -43,7 +43,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 
    1. Periodically, the Loan contract checks the payment schedule and update the loan's state.
    2. Before the scheduled payments, the Loan contract emits messages for payment notice (default to 2 weeks prior). After the notice, the loan state changes to `DUE`, and the coupon payments should be made until the payment time.
-   3. If takers failed to pay coupons, the loan state changes to `PAST_DUE` and the collateral state changes to `LIQUIDATION_IN_PROGRESS` to cover up coupon payments from takers' collateral.
+   3. If takers failed to pay coupons, the loan state changes to `PAST_DUE` and the collateral state changes to `LIQUIDATION_IN_PROGRESS` to cover up coupon payments from borrower' collateral.
    4. 120% of the coupon payment amount (in ETH) is transferred from the borrower's collateral to the lender's collateral.
    5. When the coupon payment is completed, the loan state will be back to `WORKING` and the collateral state to be `IN_USE`.
 
@@ -55,7 +55,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 
    1. Periodically, the Loan contract updates the PV (present value) of all loans and checks the collateral coverage. If a borrowed loan PV goes up and therefore the collateral coverage gets below 150%, the collateral state will change from `IN_USE` to `MARGINCALL`.
    2. If takers upsize collateral and the coverage gets over 150%, the state will be back to `IN_USE`.
-   3. However, if takers don't respond, and the coverage gets below 125%, we consider this a credit event; therefore, the collateral state will be shifted further to `LIQUIDATION`. Then the automatic liquidation process will begin. It works as a credit support annex in traditional financial transactions. Users should acknowledge this automatic liquidation feature.
+   3. However, if takers don't respond, and the coverage gets below 125%, we consider this a credit event; therefore, the collateral state will be shifted further to `LIQUIDATION`. Then the automatic liquidation process will begin. This guarentees the counter-party risk is covered. It works like a credit support annex that comes with ISDA Master agreement in traditional finance. Users should acknowledge this automatic liquidation feature.
 
 ### 🔄 6. Liquidation
 
