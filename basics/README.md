@@ -163,7 +163,7 @@ Collateral state: MARGINCALL -> LIQUIDATION
 ```txt
 Liquidation
 Loan state: WORKING -> TERMINATED
-Collateral state: LIQUIDATION -> LIQUIDATION_IN_PROGREDD -> IN_USE -> AVAILABLE
+Collateral state: LIQUIDATION -> LIQUIDATION_IN_PROGRESS -> IN_USE -> AVAILABLE
 ```
 
 ![Liquidation](./svg/Liquidation.svg)
