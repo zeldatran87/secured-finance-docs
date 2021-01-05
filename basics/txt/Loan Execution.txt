@@ -1,30 +1,43 @@
 title Loan Execution
 
-participant "Market Maker (browser)" as Maker
-participant "Filecoin (network)" as Filecoin
+participant "Market Maker (lender)" as Maker
+participant "Filecoin Network" as Filecoin
 participant "Market (contract)" as Market
 participant "Collateral (contract)" as Collateral
 participant "Loan (contract)" as Loan
-participant "Market Taker(browser)" as Taker
+participant "Market Taker(borrower)" as Taker
 
 note over Maker,Taker:Loan Execution
 
-Market<--Taker: Read market data
-Loan<-Taker:New Loan Registration
-Collateral<-Loan:Check Collateral\nCollateral state: AVAILABLE
+Market<--Taker: Read market data\nMoneyMarket.getOneItem
+Loan<-Taker:New Loan Registration\nLoan.makeLoanDeal
+activate Loan
+Collateral<-Loan:Use collateral for market taking\nCollateral.useCollateral\nCollateral state: AVAILABLE
+activate Collateral
 note over Collateral: AVAILABLE
-Market<-Loan:Update booking board\nadjust the deal size
-Loan->Loan:Loan state: REGISTERED
+Market<-Loan:Take an item from booking board\nMoneyMarket.takeOneItem
+Market->Collateral: Release collateral\nused for market making\nCollateral.releaseCollateral
+deactivate Collateral
+Loan->Loan:Update loan book with new loan item\nLoan state: REGISTERED
 note over Loan: REGISTERED
-Loan-->Taker:Emit message\n'Loan REGISTERED'\nor revert
-Maker<--Loan:Emit message\n'Loan REGISTERED'
+Maker<--Loan:Emit message\n'MakeLoanDeal' done
+deactivate Loan
+Maker-->Loan:Check loan status 'REGISTERED'\nand the 'startTxHash' is blank
 Maker->Filecoin: Transfer Filecoin (FIL)
-Maker->Loan: Input Filecoin txHash
-Loan-->Taker: Emit message\n'Fund ARRIVED'
-Taker-->Filecoin: Verify the amount from txHash
-Taker->Loan:Confirm the amount\nLoan state: WORKING
+Maker->Loan: Input Filecoin txHash\nLoan.notifyPayment
+activate Loan
+Loan->Loan: Update loan book with startTxHash
+Loan-->Taker: Emit message\n'NotifyPayment' means funds arrived
+deactivate Loan
+Taker-->Filecoin: Check the FIL amount using startTxHash
+Taker->Loan:Confirm the amount\nLoan.confirmPayment\nLoan state: WORKING
+activate Loan
 note over Loan:WORKING
-Loan-->Maker: Emit message\n'Loan BEGIN'
-Loan->Collateral: Collateral state: IN USE
+Loan->Collateral: Update collatereal state\nCollateral.updateState\nCollateral state: IN USE
+activate Collateral
 note over Collateral: IN USE
-Collateral-->Taker: Emit message\n'Collateral IN USE'
+Collateral-->Taker: Emit message\n'UpdateState' from AVAILABLE to IN_USE
+deactivate Collateral
+Loan-->Maker: Emit message\n'ConfirmPayment' means loan start
+Loan-->Taker: Emit message\n'ConfirmPayment' means loan start
+deactivate Loan

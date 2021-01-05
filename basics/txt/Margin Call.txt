@@ -2,38 +2,62 @@ title Margin Call
 
 participant "Market (contract)" as Market
 participant "Collateral (contract)" as Collateral
-participant "Scheduler (server, browser)" as Scheduler
 participant "Loan (contract)" as Loan
-participant "Market Taker (browser)" as Taker
+participant "Market Taker (borrower)" as Taker
 
-note over Market,Taker:Margin Call Operations
+note over Market,Taker:Margin Call
 
 note over Loan: WORKING
 note over Collateral: IN USE
-Scheduler->Loan:Call update all PV method
-Market<--Loan:View yield curve
-Loan->Loan:Calc PV of loans
-Loan->Collateral: Update coverage (< 150%)\nstate 'MARGIN CALL'
+
+Loan->Loan:Update loan book PV\nLoan.updateBookPV
+activate Loan
+Market<--Loan:View yield curve\nMoneyMarket.getDiscountFactors
+Loan->Loan:Update PV of loans
+Loan->Collateral: Update collateral state\nCollateral.updateState
+activate Collateral
+Collateral-->Market: View FX rate\nfxMarket.getMidRates
+Collateral-->Collateral:Calc collateral coverage \n(< 150% margin call level)
+Collateral<-Collateral: Update the collateral\n Collateral state: MARGIN CALL
 note over Collateral: MARGINCALL
-Collateral-->Taker: Emit message\n'MARGIN CALL'
+Collateral-->Taker:Emit message 'UpdateState'\nfrom IN USE to MARGINCALL
+deactivate Collateral
+deactivate Loan
 
 note over Market,Taker:Safe case
 
-Taker->Collateral: Send ETH to\nupsize colalteral
-Collateral->Loan:Call update user PV method
-Market<--Loan:View yield curve
-Loan->Loan:Calc PV of loans
-Collateral<-Loan:Update coverage (>150%)\nstate 'IN USE'
+Taker->Collateral: Send ETH to increase collateral\nCollateral.upSizeETH
+
+Loan->Loan:Update loan book PV\nLoan.updateBookPV
+activate Loan
+Market<--Loan:View yield curve\nMoneyMarket.getDiscountFactors
+Loan->Loan:Update PV of loans
+Loan->Collateral: Update collateral state\nCollateral.updateState
+activate Collateral
+Collateral-->Market: View FX rate\nfxMarket.getMidRates
+Collateral-->Collateral:Calc collateral coverage \n(> 150% margin call level)
+Collateral<-Collateral:Update the collateral\nCollateral state: IN USE
 note over Collateral: IN USE
-Collateral-->Taker: Emit message\n'margin SAFE'
+Collateral-->Taker:Emit message 'UpdateState'\nfrom MARGINCALL to IN USE
+deactivate Collateral
+deactivate Loan
 
 note over Market,Taker:Liquidation case
 
-Taker-->Taker: No ETH
-Loan-->Loan: Wait for action
-Scheduler->Loan:Call update all PV method
-Market<--Loan:View yield curve
-Loan->Loan:Calc PV of loans
-Collateral<-Loan:Update coverage (<125%)\nstate 'LIQUIDATION'
-note over Collateral: LIQUIDATION
-Collateral-->Taker: Emit message\n'Collateral Liquidation'
+note over Loan: WORKING
+note over Collateral: MARGINCALL
+
+Taker-->Taker:No upsize ETH
+Loan->Loan:Update loan book PV\nLoan.updateBookPV
+activate Loan
+Market<--Loan:View yield curve\nMoneyMarket.getDiscountFactors
+Loan->Loan:Update PV of loans
+Loan->Collateral: Update collateral state\nCollateral.updateState
+activate Collateral
+Collateral-->Market: View FX rate\nfxMarket.getMidRates
+Collateral-->Collateral:Calc collateral coverage \n(< 125% liquidation level)
+Collateral<-Collateral:Update the collateral\nCollateral state: LIQUIDATION
+note over Collateral:LIQUIDATION
+Collateral-->Taker:Emit message 'UpdateState'\nfrom MARGINCALL to LIQUIDATION
+deactivate Collateral
+deactivate Loan

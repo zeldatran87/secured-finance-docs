@@ -1,28 +1,37 @@
 title Liquidation
 
-participant "Lender (browser)" as Lender
-participant "Market Maker(browser)" as Maker
+participant "Market Maker(lender)" as Maker
 participant "Collateral (contract)" as Collateral
-participant "Filecoin (network)" as Filecoin
 participant "Loan (contract)" as Loan
-participant "Market Taker (browser)" as Taker
+participant "Market Taker (borrower)" as Taker
 
-note over Lender,Taker:Liquidation process
+note over Maker,Taker:Liquidation process
 
 note over Loan: WORKING
 note over Collateral: LIQUIDATION
-Collateral-->Maker:Emit message 'Nominated\nas liquidation provider'
-Maker->Filecoin: Transfer Filecoin (FIL)
-Maker->Loan: Input Filecoin txHash
-Loan-->Lender:Emit message:\n'FIL RETURNED'
-Lender-->Filecoin: Verify the amount from txHash
 
-Lender->Loan:Confirm FIL paid
-Loan->Collateral: Call to release collateral for\nFIL coupon amt (in ETH120%)
-Collateral->Maker:Release collateral (in ETH120%)
-Collateral->Collateral: Collateral state 'EMPTY'
-note over Collateral:EMPTY
-Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
-Collateral->Loan:Loan state 'TERMINATED'
-note over Loan:TERMINATED
-Loan-->Taker:Emit message\n'TERMINATED'
+activate Loan
+Loan->Loan:Update loan state\nLoan.updateState\nLoan state: TERMINATED
+note over Loan: TERMINATED
+Loan-->Taker: Emit message 'UpdateState'\nfrom WORKING to TERMINATED
+Loan-->Maker: Emit message 'UpdateState'\nfrom WORKING to TERMINATED
+Loan->Collateral:Liquidate using collateral\nCollateral.partialLiquidation\nCollateral state: LIQUIDATION IN PROGRESS
+
+activate Collateral
+note over Collateral: LIQUIDATION IN PROGRESS
+Collateral->Collateral:Transfer collateral\n(PV of loan amount in ETH 120%)\nfrom borrower's book to lender's book
+Collateral-->Taker: Emit message 'Partial Liquidation'\nmeans paid from borrower's collateral book
+Collateral-->Maker: Emit message 'Partial Liquidation'\nmeans paid to lender's collateral book
+deactivate Collateral
+deactivate Loan
+
+Loan->Loan:Update loan
+activate Loan
+Loan->Collateral:Update collateral state\nCollateral.completePartialLiquidation\nCollateral state: IN USE
+note over Collateral: IN USE
+Collateral-->Taker: Emit message 'UpdateState'\nfrom LIQUIDATION IN PROGRESS to IN USE
+Loan->Collateral: Release collateral for borrower\nCollateral.releaseCollateral
+Collateral->Collateral:Update collateral state\nCollateral.updateState\nCollateral state: AVAILABLE
+note over Collateral: AVAIILABLE
+Collateral-->Taker:Emit message 'UpdateState'\nfrom IN USE to AVAILABLE
+deactivate Loan

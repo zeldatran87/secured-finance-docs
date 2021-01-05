@@ -1,47 +1,67 @@
 title Registration to Market Making
 
-participant "Market Maker (browser)" as Maker
+participant "Market Maker (lender)" as Maker
 participant "Market (contract)" as Market
 participant "Collateral (contract)" as Collateral
-participant "Scheduler (server, browser)" as Scheduler
-participant "Filecoin (network)" as Filecoin
+participant "Custodian (oracle)" as Scheduler
+participant "Filecoin Network" as Filecoin
 
 note over Maker,Filecoin:Registration
 
-Maker->Collateral: Registar ETH and FIL account address
+Maker->Collateral: Registar ID and account address (ETH, FIL, etc)\nCollateral.setColBook
+activate Collateral
+Collateral->Collateral: Make a collateral book
 note over Collateral: EMPTY
-Collateral-->Maker: Emit message\n'Registration Completed'
+Collateral-->Maker: Emit message\n'SetColBook' done
+deactivate Collateral
 
 note over Maker,Filecoin:Collateralizing:  (1) ETH case
 
-Maker->Collateral:Send ETH\nCollateral state 'Available'
+Maker->Collateral:Send ETH\nCollateral.upSizeETH
+activate Collateral
+Collateral->Collateral: Update ETH collateral amount\nCollateral state: AVAILABLE
 note over Collateral: AVAILABLE
-Collateral-->Maker: Emit message\n 'ETH Collateral Received'
-note over Maker,Filecoin:Collateralizing:  (2) FIL case
+Collateral-->Maker: Emit message\n 'UpSizeETH' done
+deactivate Collateral
+note over Maker,Filecoin:Collateralizing:  (2) FIL and other currencies case
 
 note over Collateral: EMPTY
 
-Maker->Collateral: Request FIL custody address
-Collateral-->Scheduler: Emit message:\n'New custody address request'
-Filecoin->Scheduler: Create a new FIL address
-Scheduler->Collateral:Register a new FIL address
-
-Collateral-->Maker: Emit message\n 'Here's your custody address'
-Maker->Filecoin: Send FIL
-Maker->Collateral: Input Filecoin txHash
+Maker->Collateral: Request FIL custody address\nCollateral.requestFILCustodyAddr
+activate Collateral
+Collateral-->Scheduler: Emit message:\n'Request FIL Custody Address'
+deactivate Collateral
+Scheduler->Filecoin: Create a new FIL address
+activate Scheduler
+Filecoin-->Scheduler: Return the address
+Scheduler->Collateral:Register the FIL custody address\nCollateral.registerFILCusodyAddr
+activate Collateral
+Collateral-->Maker: Emit message\n 'RegisterFILCustodyAddr' done
+deactivate Collateral
+deactivate Scheduler
+Maker->Filecoin: Send FIL to the custody address
+Maker->Collateral: Input Filecoin txHash and FIL amount\nCollateral.upSizeFIL
+activate Collateral
+Collateral-->Scheduler:Emit message\n'UpsizeFIL'
+deactivate Collateral
 Collateral<--Scheduler: Read txHash
-Scheduler-->Filecoin: Read FIL balance
-Scheduler->Collateral:Update FIL balance\nCollateral state: AVAILABLE
+activate Scheduler
+Scheduler-->Filecoin: Read FIL amount
+Scheduler->Collateral:Update FIL collateral amount\nCollateral.confirmUpSizeFIL\nCollateral state: AVAILABLE
+activate Collateral
 note over Collateral: AVAILABLE
+Collateral-->Maker: Emit message\n'ConfirmUpSizeFIL' done
+deactivate Collateral
+deactivate Scheduler
 
-Collateral-->Maker: Emit message\n'FIL Collateral Received'
+note over Maker,Filecoin:Market Making (Loan)
 
-note over Maker,Filecoin:Market Making (Loan, Deposit, FX)
-
-Maker-->Collateral: Pick random Filecoin collateral addresses
-Maker-->Filecoin: Read FIL balances for\nrandom chosen addresses
-Maker->Market:Input bid/ask price, size\nInput FIL balances for others
-Market-->Collateral:Read collateral amount if borrow FIL\nHelp to verify other's FIL account balances
-Maker<--Market: Emit message\n'Confirmed' or 'Upsize Collateral'
-Market<--Maker: View updated curve,\nbooking board
-
+Maker->Market:Input term, bid/ask, size\nMoneyMarket.setOneItem
+activate Market
+Market->Market: Create or update a market book
+Market->Collateral:Use collateral for market making\nCollateral.useCollateral
+activate Collateral
+Collateral->Collateral: Check collateral is enough\nUpdate collateral in use amount
+deactivate Collateral
+Maker<--Market: Emit message\n'SetOneItem' done
+deactivate Market

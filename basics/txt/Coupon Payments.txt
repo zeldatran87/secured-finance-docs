@@ -1,50 +1,58 @@
 title Coupon Payments
 
-participant "Lender (browser)" as Lender
-participant "Market Maker(browser)" as Maker
+participant "Market Maker(lender)" as Maker
 participant "Collateral (contract)" as Collateral
-participant "Filecoin (network)" as Filecoin
+participant "Filecoin Network" as Filecoin
 participant "Loan (contract)" as Loan
-participant "Market Taker (browser)" as Taker
+participant "Market Taker (borrower)" as Taker
 
-note over Lender,Taker:Coupon Payments
+note over Maker,Taker:Coupon Payments
 note over Loan: WORKING
-Loan->Loan: Check payment schedule\n Loan state 'DUE'
+Loan->Loan: Check after payment notice date\nLoan.updateState\nLoan state: DUE
+activate Loan
 note over Loan: DUE
-Loan-->Taker:Emit message 'Payment Advice'
+Loan-->Taker:Emit message 'UpdateState'\nfrom WORKING to DUE
+deactivate Loan
 
-note over Lender,Taker:Safe Case
+note over Maker,Taker:Safe Case
 
 note over Collateral: IN USE
+
 Taker->Filecoin: Transfer Filecoin (FIL)
-Taker->Loan: Input Filecoin txHash
-Loan-->Lender:Emit message:\n'FIL Coupon Paid'
-Lender-->Filecoin: Verify the amount from txHash
-Lender->Loan:Confirm FIL payment\nLoan state 'WORKING'
-note over Loan: WORKING
-Loan-->Taker: Emit message\n'Coupon Paid'
+Taker->Loan: Input Filecoin txHash\nLoan.notifyPayment
+activate Loan
+Loan-->Maker: Emit message\n'NotifyPayment' means coupon paid
+deactivate Loan
+Maker-->Filecoin: Check the FIL amount from txHash
+Maker->Loan:Confirm the amount\nLoan.confirmPayment\nLoan state: WORKING
+activate Loan
+note over Loan:WORKING
+Loan-->Taker: Emit message\n'ConfirmPayment' done
+deactivate Loan
 
-note over Lender,Taker:Liquidation Case
+note over Maker,Taker:Liquidation Case
 
+note over Collateral: IN USE
 note over Loan: DUE 
-note over Collateral: IN USE
 Taker-->Taker: No Payment
+Loan->Loan: Check after payment due date\nLoan.updateState\nLoan state: PAST DUE
+activate Loan
 note over Loan: PAST DUE
-Loan->Collateral: Update the collateral\nstate 'PARTIAL LIQUIDATION'
-note over Collateral: PARTIAL LIQUIDATION
-Collateral-->Taker: Emit message 'Collateral Partial Liquidation'
-Collateral-->Lender: Emit message 'Collateral Partial Liquidation'
-Collateral-->Maker:Emit message 'Nominated\nas partial liquidation provider'
-Maker->Filecoin: Transfer Filecoin (FIL)
-Maker->Loan: Input Filecoin txHash
-Loan-->Lender:Emit message:\n'FIL Coupon Paid'
-Lender-->Filecoin:Verify the amount from txHash
-Lender->Loan:Confirm FIL paid
-Loan->Collateral: Call to release collateral for\nFIL coupon amt (in ETH120%)
-Collateral->Maker: Release collateral (in ETH120%)
-Collateral->Collateral:Collateral state 'IN USE'
-note over Collateral: IN USE
-Collateral-->Collateral: Reserve (ETH 5%)\nmanagement fee
-Collateral->Loan:Loan state 'WORKING'
+Loan->Collateral: Liquidate the collateral\nCollateral.partialLiquidation\nCollateral state: LIQUIDATION IN PROGRESS
+activate Collateral
+note over Collateral: LIQUIDATION IN PROGRESS
+Collateral->Collateral: Transfer partial collateral amount\n(coupon amount in ETH 120%)\nfrom borrower's book to lender's book
+Collateral-->Taker: Emit message 'Partial Liquidation'\nmeans paid from borrower's collateral book
+Collateral-->Maker: Emit message 'Partial Liquidation'\nmeans paid to lender's collateral book
+deactivate Collateral
+deactivate Loan
+
+Loan->Loan:Update loan state\nLoan.updateState\nLoan state: WORKING
+activate Loan
 note over Loan: WORKING
-Loan-->Taker: Emit message\n'Coupon Paid'
+Loan->Collateral: Update collateral state\nCollateral.completePartialLiquidation\nCollateral state: IN USE
+activate Collateral
+note over Collateral: IN USE
+Collateral-->Taker: Emit message 'UpdateState'\nfrom LIQUIDATION IN PROGRESS to IN USE
+deactivate Collateral
+deactivate Loan
