@@ -6,7 +6,7 @@ Secured Finance is an institutional-grade financial transaction platform with au
 
 This directory has diagrams to explain how each player, network, and smart contracts interact. The interaction is designed using FSM (Finite State Machine); therefore, it is key to look at state transitions for loans and collateral contracts. This document aims to help understand how those states change along with a whole lifecycle of a loan transaction.
 
-**Disclaimer:** Secured Finance is not an intermediary service provider; it is a protocol developer. Since this is a peer-to-peer platform, the ownership of funds remain on users; therefore, financial activity and decision making such as funds transfer and sending confirmations have to be made sorely by users.
+**Disclaimer:** Secured Finance is not an intermediary service provider; it is a protocol developer. Since this is a peer-to-peer platform, the ownership of funds remain on users; therefore, financial activity and decision making such as funds transfer and sending confirmations have to be made solely by users.
 
 ## Players
 
