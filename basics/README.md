@@ -2,9 +2,11 @@
 
 [![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
 
-Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol replicating [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of an industry-standard that manages [558 trillions of dollars of OTC (i.e., peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we provide scalable, interoperable, decentralized, peer-to-peer banking business for crypto assets.
+Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol replicating [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of an industry-standard that manages [558 trillions of dollars of OTC (i.e., peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. We built a protocol for a scalable, interoperable, decentralized, peer-to-peer banking business for crypto assets.
 
 This directory has diagrams to explain how each player, network, and smart contracts interact. The interaction is designed using FSM (Finite State Machine); therefore, it is key to look at state transitions for loans and collateral contracts. This document aims to help understand how those states change along with a whole lifecycle of a loan transaction.
+
+**Disclaimer:** Secured Finance is not an intermediary service provider; it is a protocol developer. Since this is a peer-to-peer platform, the ownership of funds remain on users; therefore, financial activity and decision making such as funds transfer and sending confirmations have to be made sorely by users.
 
 ## Players
 
