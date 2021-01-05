@@ -2,26 +2,26 @@
 
 [![badge](https://img.shields.io/badge/submit%20for-HackFS-blue)](https://hack.ethglobal.co/showcase/secured-finance-recTkx6c1RDoLeaQm)
 
-Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol from [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of the financial industry that manages [558 trilions of dollars of OTC (i.e. peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we built scalable, flexible, decentralized peer-to-peer banking business for crypto assets.
+Secured Finance is an institutional-grade financial transaction platform with automatic collateral management and mark-to-market mechanisms. We designed a protocol replicating [40-years](https://en.wikipedia.org/wiki/Swap_(finance)#History) of an industry-standard that manages [558 trillions of dollars of OTC (i.e., peer-to-peer) derivative transactions](https://stats.bis.org/statx/srs/table/d5.1) and made the interbank market system open to the public. With this protocol, we provide scalable, interoperable, decentralized, peer-to-peer banking business for crypto assets.
 
-This directory has diagrams to explain how each player, network, and smart contracts interact with each other. The interaction is designed using FSM (Finite State Machine); therefore, it is a key to look at state transisions for loans and collateral contracts. This document aims to help understand how those states change along with a whole lifecycle of a loan transaction.
+This directory has diagrams to explain how each player, network, and smart contracts interact. The interaction is designed using FSM (Finite State Machine); therefore, it is key to look at state transitions for loans and collateral contracts. This document aims to help understand how those states change along with a whole lifecycle of a loan transaction.
 
 ## Players
 
 - Market Maker
-  - Users using the Secured Finance web app, and propose their borrow/lend interest rates to market takers. To start market making, user have to collateralize ETH (20% of loan amount) to the Collateral smart contract.
+  - Users using the Secured Finance web app and propose their borrow/lend interest rates to market takers. To start market-making, users have to collateralize ETH (20% of the loan amount) to the Collateral smart contract.
+- Market Taker
+  - Users who see the market maker's proposal and take a deal. In a loan deal, they will be borrowers or lenders. To make a lending deal to borrow money, they have to collateralize ETH (150% of the loan amount) to the Collateral smart contract.
 - [Market.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Market.sol)
-  - A smart contract to gather all market information. It works like a database.
+  - Smart contracts to gather market information (MoneyMarket, FX). It works like an on-chain database.
 - [Collateral.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Collateral.sol)
-  - A smart contract that collets ETH as collateral and manages the control of the funds' ownership based on its state (`EMPTY`, `AVAILABLE`, `IN_USE`, `MARGIN_CALL`, `LIQUIDATION_IN_PROGRESS`, `LIQUIDATION`). For FIL as collateral, we keep txHash and let the user's counterparty confirm the FIL balance manually.
+  - A smart contract that takes ETH as collateral and manages the funds' ownership based on its state (`EMPTY`, `AVAILABLE`, `IN_USE`, `MARGIN_CALL`, `LIQUIDATION_IN_PROGRESS`, `LIQUIDATION`). For FIL as collateral, we keep txHash and let the user's counterparty confirm the FIL balance manually.
 - [Loan.sol](https://github.com/Secured-Finance/smart-contracts/blob/master/contracts/Loan.sol)
   - It is a smart contract that stores all the loans to manage schedules for coupon payments, calculate PV (present value), and control its state (`REGISTERED`, `WORKING`, `DUE`, `PAST_DUE`, `CLOSED`, `TERMINATED`).
-- Scheduler
-  - It uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick kicks batch operations such as market updates, re-evaluate PV of all financial products for a margin call.
 - Filecoin Network
   - The Filecoin network to send/receive and verify the balance of FIL custody accounts.
-- Market Taker
-  - Users who see the market maker's proposal and take a deal. In a loan deal, they will be borrowers or lenders. To make a lending deal to borrow money, they have to collateralize ETH to the Collateral smart contract.
+- Scheduler
+  - It uses web3js pub-sub to catch a new blockhead as a clock-tick. Each tick kicks batch operations such as market updates and re-evaluates all financial products' PV for a margin call.
 
 ## The Lifecycle of Loans
 
@@ -30,7 +30,7 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
 ### ✍️ 1. Registration, Collateralization, and Market Making
 
    1. Users register their ETH and FIL addresses to receive funds. They also register an ID string such as DID to anchor a government-issued identity and public keys so that a counterparty can choose who they want to trade to comply with AML and other financial regulations.
-   2. To begin, users should collateralize their ETH to collateral contract address.
+   2. To begin, users should collateralize their ETH to the collateral contract address.
 
 ### 🤝 2. Loan Execution
 
@@ -44,28 +44,27 @@ A loan takes one of the following 6 steps, depending on the states of Collateral
    1. Periodically, the Loan contract checks the payment schedule and update the loan's state.
    2. Before the scheduled payments, the Loan contract emits messages for payment notice (default to 2 weeks prior). After the notice, the loan state changes to `DUE`, and the coupon payments should be made until the payment time.
    3. If takers failed to pay coupons, the loan state changes to `PAST_DUE` and the collateral state changes to `LIQUIDATION_IN_PROGRESS` to cover up coupon payments from takers' collateral.
-   4. 120% of the coupon payment amount (in ETH) is transferred from borrower's collateral to lender's collateral.
+   4. 120% of the coupon payment amount (in ETH) is transferred from the borrower's collateral to the lender's collateral.
    5. When the coupon payment is completed, the loan state will be back to `WORKING` and the collateral state to be `IN_USE`.
 
 ### ✅ 4. Redemption
 
-   1. Redemption works similarly to the coupon payments. If a loan ends with no liquidation, the loan state will be `CLOSED`, and the collateral state ends with `AVAILABLE`.
+   1. Redemption works similarly to coupon payments. If a loan ends with no liquidation, the loan state will be `CLOSED`, and the collateral state ends with `AVAILABLE`.
 
 ### 🆘 5. Margin Call
 
-   1. Periodically, the Loan contract updates PV (present value) of all loans and checks the collateral coverage. If a borrowed loan PV goes up and therefore the collateral coverage gets below 150%, the collateral state will change from `IN_USE` to `MARGINCALL`.
+   1. Periodically, the Loan contract updates the PV (present value) of all loans and checks the collateral coverage. If a borrowed loan PV goes up and therefore the collateral coverage gets below 150%, the collateral state will change from `IN_USE` to `MARGINCALL`.
    2. If takers upsize collateral and the coverage gets over 150%, the state will be back to `IN_USE`.
    3. However, if takers don't respond, and the coverage gets below 125%, we consider this a credit event; therefore, the collateral state will be shifted further to `LIQUIDATION`. Then the automatic liquidation process will begin. It works as a credit support annex in traditional financial transactions. Users should acknowledge this automatic liquidation feature.
 
 ### 🔄 6. Liquidation
 
-   1. Similar to coupon payments liquidation, 120% of the loan PV (in ETH) is transferred from borrower's collateral to lender's collateral.
+   1. Similar to coupon payments liquidation, 120% of the loan PV (in ETH) is transferred from the borrower's collateral to the lender's collateral.
    2. After liquidations, the loan state will be `TERMINATED`, borrowers' collateral is released, and the collateral state will be back to `AVAILABLE`.
 
 ## Sequence Diagram
 
-Each step with the state changes are displayed followed by its sequence diagram.
-
+Each step with the state changes is displayed, followed by its sequence diagram.
 ### (1) States for Registration, Collateralization, and Market Making ✍️
 
 ```txt
