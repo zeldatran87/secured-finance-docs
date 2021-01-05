@@ -6,7 +6,7 @@
 
 This document shows an example of a loan transaction with diagrams to explain how each player, network, and smart contracts interact. The communication is designed using FSM (Finite State Machine); therefore, tracing state transitions helps understand how this system works for a whole lifecycle of a financial transaction.
 
-**Disclaimer:** Secured Finance is not an intermediary service provider; it is a protocol developer. Since this is a peer-to-peer platform, the ownership of funds remain on users; therefore, financial activity and decision making such as funds transfer and sending confirmations have to be made solely by users.
+**Disclaimer:** Secured Finance is not an intermediary service provider; it is a protocol developer. Since this is a peer-to-peer platform, the ownership of funds remain on users; therefore, financial activity and decision making such as funds transfer, sending confirmations, and counter-party check have to be made solely by users.
 
 ## Players
 
